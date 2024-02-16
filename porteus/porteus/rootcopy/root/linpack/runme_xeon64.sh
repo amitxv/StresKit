@@ -4,23 +4,6 @@ usage() {
     echo "Usage: $0 [-m <gb>] [-s <samples>]"
 }
 
-is_psize_valid() {
-    psize=$1
-    has_avx=$2
-
-    if [ "$has_avx" -eq 1 ]; then
-        if ((psize % 16 == 0)) && ((psize % 32 != 0)); then
-            return 0
-        fi
-    else
-        if ((psize % 8 == 0)) && ((psize % 16 != 0)); then
-            return 0
-        fi
-    fi
-
-    return 1
-}
-
 main() {
     memory_arg=""
     samples_arg=""
