@@ -58,27 +58,17 @@ main() {
 
     has_avx=$(grep -q "avx" /proc/cpuinfo && echo 1 || echo 0)
     memory_in_bytes=$(echo "$memory_in_gb * 1073741824" | bc)
-    initial_psize=$(echo "sqrt($memory_in_bytes / 8)" | bc)
-    optimal_psize=0
-    n=0
 
-    if is_psize_valid "$initial_psize" "$has_avx"; then
-        optimal_psize=$initial_psize
+    if [ "$has_avx" -eq 1 ]; then
+        base=16
+        ignore=32
+    else
+        base=8
+        ignore=16
     fi
 
-    while [ "$optimal_psize" -eq 0 ]; do
-        temp_psize=$((initial_psize + n))
-        if is_psize_valid $temp_psize "$has_avx"; then
-            optimal_psize=$temp_psize
-        fi
-
-        temp_psize=$((initial_psize - n))
-        if is_psize_valid $temp_psize "$has_avx"; then
-            optimal_psize=$temp_psize
-        fi
-
-        n=$((n + 1))
-    done
+    psize=$(echo "sqrt($memory_in_bytes / 8)" | bc)
+    optimal_psize=$(( (($psize + $base - 1) / $ignore) * $ignore + $base ))
 
     # create lininput
     echo -e "\n\n1\n$optimal_psize\n$optimal_psize\n$samples\n4" > "lininput_xeon64"
