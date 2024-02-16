@@ -9,11 +9,11 @@ is_psize_valid() {
     has_avx=$2
 
     if [ "$has_avx" -eq 1 ]; then
-        if ((psize % 16 == 0)) && (( (psize / 16) % 2 == 1 )) && (( psize % 32 != 0 )); then
+        if ((psize % 16 == 0)) && ((psize % 32 != 0)); then
             return 0
         fi
     else
-        if ((psize % 8 == 0)) && (( (psize / 8) % 2 == 1 )) && (( psize % 16 != 0 )); then
+        if ((psize % 8 == 0)) && ((psize % 16 != 0)); then
             return 0
         fi
     fi
