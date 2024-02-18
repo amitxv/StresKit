@@ -224,7 +224,7 @@ def main() -> int:
             urls["linpack"]["url"],
             urls["linpack"]["file_name"],
             urls["linpack"]["sha256"],
-            "porteus/porteus/rootcopy/root/linpack",
+            "porteus/porteus/rootcopy/root/tools/linpack",
         )
         != 0
     ):
@@ -232,7 +232,10 @@ def main() -> int:
         return 1
 
     # patch linpack binary for AMD
-    if patch_linpack("porteus/porteus/rootcopy/root/linpack/xlinpack_xeon64") != 0:
+    if (
+        patch_linpack("porteus/porteus/rootcopy/root/tools/linpack/xlinpack_xeon64")
+        != 0
+    ):
         print("error: failed to patch linpack")
         return 1
 
@@ -242,7 +245,7 @@ def main() -> int:
             urls["prime95"]["url"],
             urls["prime95"]["file_name"],
             urls["prime95"]["sha256"],
-            "porteus/porteus/rootcopy/root/prime95",
+            "porteus/porteus/rootcopy/root/tools/prime95",
         )
         != 0
     ):
@@ -255,7 +258,7 @@ def main() -> int:
             urls["ycruncher"]["url"],
             urls["ycruncher"]["file_name"],
             urls["ycruncher"]["sha256"],
-            "porteus/porteus/rootcopy/root/ycruncher",
+            "porteus/porteus/rootcopy/root/tools/ycruncher",
         )
         != 0
     ):
